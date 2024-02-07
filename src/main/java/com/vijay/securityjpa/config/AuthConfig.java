@@ -27,11 +27,12 @@ public class AuthConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+
         return new BCryptPasswordEncoder();
     }
     @Bean
     public UserDetailsService getUserDetailsService(){
-        UserDetails normalUser= User.withUsername("normal")
+     /*   UserDetails normalUser= User.withUsername("normal")
                 .password(passwordEncoder().encode("normal"))
                 .roles("NORMAL").build();
 
@@ -41,9 +42,9 @@ public class AuthConfig {
 
         UserDetails user=User.withUsername("user")
                 .password(passwordEncoder().encode("user"))
-                .roles("USER").build();
+                .roles("USER").build();   */
 
-        return new InMemoryUserDetailsManager(normalUser,adminUser,user);
+        return new CustomUserDetailsService();
     }
 
     @Bean
@@ -67,8 +68,5 @@ public class AuthConfig {
         return authenticationProvider;
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
+
 }

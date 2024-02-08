@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,11 +46,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserDto> findUserById(@PathVariable("id") String userId){
         UserDto userById = userServce.findUserById(userId);
         return new ResponseEntity<>(userById,HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponseMessage> deleteUserById(@PathVariable("id") String userId){
         userServce.deleteUserById(userId);
         ApiResponseMessage responseMessage=ApiResponseMessage.builder()
@@ -61,12 +64,14 @@ public class UserController {
     }
     //get by email
     @GetMapping("/email/{email}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
         return new ResponseEntity<>(userServce.getUserByEmail(email), HttpStatus.OK);
     }
 
     //search user
     @GetMapping("/search/{keywords}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<UserDto>> searchUser(@PathVariable String keywords) {
         return new ResponseEntity<>(userServce.searchUser(keywords), HttpStatus.OK);
     }
@@ -95,6 +100,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<PageableResponse<UserDto>> getUsers(
             @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,

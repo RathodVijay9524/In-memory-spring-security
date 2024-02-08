@@ -50,7 +50,7 @@ public class AuthConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
-                .authorizeRequests().requestMatchers("/product/welcome", "/user/**","/product/home").permitAll()
+                .authorizeRequests().requestMatchers("/product/welcome", "/user/**").permitAll()
                 .and()
                 .authorizeRequests().requestMatchers("/product/**").authenticated()
                 .and()

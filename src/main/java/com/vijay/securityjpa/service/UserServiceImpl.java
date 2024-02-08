@@ -52,7 +52,6 @@ public class UserServiceImpl implements UserServce{
         user.setName(userDto.getName());
         user.setRoles(userDto.getRoles());
         user.setUserId(id);
-
         userRepository.save(user);
         return mapper.map(user,UserDto.class);
     }
